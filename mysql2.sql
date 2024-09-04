@@ -52,7 +52,7 @@ create table manuntencao (
 INSERT INTO manuntencao (nome,data_manuntencao,data_previsao,custo,detalhes,observacoes,lugar,tipo_manuntencao,modelo_marca,tipo_conserto) 
 VALUES ('matheus','2000-10-01',NULL,'200.50','Limpeza dos filtros de ar',NULL,'sala e','Corretiva','modelo 03 e marca 03', 'Substituição dos filtros'),
 ('joao','1999-07-12',NULL,'150.75','troca de óleo',NULL,'sala b','Preventiva','modelo 02 e marca 02', 'Limpeza dos filtros de ar'),
-('ana','2003-05-23',NULL,'320.00','troca de correia',NULL,'sala c','Corretiva','modelo 03 e marca 03', 'Limpeza de dreno'),
+('gabriel','2003-05-23',NULL,'320.00','troca de correia',NULL,'sala c','Corretiva','modelo 03 e marca 03', 'Limpeza de dreno'),
 ('carlos','2001-11-02',NULL,'100.25','troca de filtro de ar',NULL,'sala d','Corretiva','modelo 04 e marca 04', 'Medição de tensão elétrica'),
 ('mariana','1998-03-15',NULL,'450.90','troca de pastilha de freio',NULL,'sala e','Preventiva','modelo 05 e marca 05', 'Medição de temperatura do ar'),
 ('rafael','2002-08-30',NULL,'220.30','troca de vela',NULL,'sala a','Corretiva','modelo 01 e marca 01', 'Verificação do estado dos filtros'),
