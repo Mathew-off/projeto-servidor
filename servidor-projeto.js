@@ -61,7 +61,7 @@ app.delete('/manuntencao/:id', (req, res) => {
     res.send('Manuntenção deletada com sucesso');
     });
     });
-// Criar um novo aluno
+// Cadastrar nova manutenção
 app.post('/manuntencao', (req, res) => {
     const { nome, data_manuntencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manuntencao,modelo_marca,tipo_conserto } = req.body;
     connection.query('INSERT INTO manuntencao (nome, data_manuntencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manuntencao,modelo_marca,tipo_conserto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
@@ -72,6 +72,19 @@ app.post('/manuntencao', (req, res) => {
     return;
     }
     res.status(201).send('Manuntenção salva com sucesso');
+    });
+    });
+    // Atualizar informações de uma manutençao
+app.put('/manuntencao/:id', (req, res) => {
+    const manunID = req.params.id;
+    const {nome, data_manuntencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manuntencao,modelo_marca,tipo_conserto} = req.body;
+    connection.query('UPDATE manuntencao SET nome = ?, data_manuntencao = ?, data_previsao = ?, custo = ?, detalhes = ?, observacoes = ?, lugar = ?, tipo_manuntencao = ?, modelo_marca = ?, tipo_conserto = ? WHERE id = ?', [nome, data_manuntencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manuntencao,modelo_marca,tipo_conserto, manunID], (err, result) => {
+        if (err) {
+            console.error('Erro ao atualizar Manuntenção:', err);
+            res.status(500).send('Erro interno do servidor');
+    return;
+    }
+    res.send('Manuntenção atualizado com sucesso');
     });
     });
 //Pagina não encontrada
