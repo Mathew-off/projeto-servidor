@@ -61,6 +61,19 @@ app.delete('/manuntencao/:id', (req, res) => {
     res.send('Manuntenção deletada com sucesso');
     });
     });
+// Criar um novo aluno
+app.post('/manuntencao', (req, res) => {
+    const { nome, data_manuntencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manuntencao,modelo_marca,tipo_conserto } = req.body;
+    connection.query('INSERT INTO manuntencao (nome, data_manuntencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manuntencao,modelo_marca,tipo_conserto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    [nome, data_manuntencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manuntencao,modelo_marca,tipo_conserto], (err, result) => {
+    if (err) {
+    console.error('Erro ao inserir a Manuntenção:', err);
+    res.status(500).send('Erro interno do sistema!');
+    return;
+    }
+    res.status(201).send('Manuntenção salva com sucesso');
+    });
+    });
 //Pagina não encontrada
 app.get('*',(req,res) => {
         res.send(`Pagina não encontrada `);
