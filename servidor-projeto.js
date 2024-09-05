@@ -57,7 +57,6 @@ app.delete('/manuntencao/:id', (req, res) => {
     res.status(500).send('Erro interno do sistema');
     return;
     }
-    
     res.send('Manuntenção deletada com sucesso');
     });
     });
@@ -74,7 +73,43 @@ app.post('/manuntencao', (req, res) => {
     res.status(201).send('Manuntenção salva com sucesso');
     });
     });
-    // Atualizar informações de uma manutençao
+// Filtrar manutenções
+app.post('/filtro', (req, res) => {
+    const { nome, lugar, tipo_manuntencao, modelo_marca } = req.body;
+    // Inicializa a consulta e os valores
+    let sql = 'SELECT * FROM manuntencao WHERE 1=1'; // "1=1" é uma condição sempre verdadeira para facilitar a concatenação
+    let values = [];
+
+    // Função auxiliar para adicionar condições dinamicamente
+    const addCondition = (field, value) => {
+        if (value) {
+            sql += ` AND ${field} = ?`;
+            values.push(value);
+        }
+    };
+
+    // Adiciona condições utilizando a função auxiliar
+    addCondition('nome', nome);
+    addCondition('lugar', lugar);
+    addCondition('tipo_manuntencao', tipo_manuntencao);
+    addCondition('modelo_marca', modelo_marca);
+
+    // Executa a consulta com os valores dinamicamente gerados
+    connection.query(sql, values, (err, rows) => {
+        if (err) {
+            console.error('Erro ao executar a consulta:', err);
+            res.status(500).send('Erro interno do sistema');
+            return;
+        }
+        if (rows.length === 0) {
+            res.status(404).send('Manuntenção não encontrada');
+            return;
+        }
+        res.json(rows); // Retorna todas as linhas encontradas
+    });
+});
+
+// Atualizar informações de uma manutençao
 app.put('/manuntencao/:id', (req, res) => {
     const manunID = req.params.id;
     const {nome, data_manuntencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manuntencao,modelo_marca,tipo_conserto} = req.body;
