@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql');
 const app = express();
 const port = 3000;
+const { format, subDays, subMonths } = require('date-fns');
 // Configuração do banco de dados
 const connection = mysql.createConnection({
 host: 'localhost',
@@ -75,11 +76,10 @@ app.post('/manuntencao', (req, res) => {
     });
 // Filtrar manutenções
 app.post('/filtro', (req, res) => {
-    const { nome, lugar, tipo_manuntencao, modelo_marca } = req.body;
+    const { nome, lugar, tipo_manuntencao, modelo_marca, periodo } = req.body;
     // Inicializa a consulta e os valores
     let sql = 'SELECT * FROM manuntencao WHERE 1=1'; // "1=1" é uma condição sempre verdadeira para facilitar a concatenação
     let values = [];
-
     // Função auxiliar para adicionar condições dinamicamente
     const addCondition = (field, value) => {
         if (value) {
@@ -87,12 +87,48 @@ app.post('/filtro', (req, res) => {
             values.push(value);
         }
     };
+    // Função auxiliar para adicionar condições de data relativa
+    const addRelativeDateCondition = (field, period) => {
+        let startDate;
+        const today = new Date();
+        switch (period) {
+            case 'ultimos_7_dias':
+                startDate = subDays(today, 7);
+                break;
+            case 'ultimos_15_dias':
+                startDate = subDays(today, 15);
+                break;
+            case 'ultimos_30_dias':
+                startDate = subDays(today, 30);
+                break;
+            case 'ultimos_3_meses':
+                startDate = subMonths(today, 3);
+                break;
+            case 'ultimos_6_meses':
+                startDate = subMonths(today, 6);
+                break;
+            case 'ultimos_12_meses':
+                startDate = subMonths(today, 12);
+                break;
+            default:
+                startDate = null;
+        }
+        if (startDate) {
+            sql += ` AND ${field} >= ?`;
+            values.push(format(startDate, 'yyyy-MM-dd')); // Ajuste o formato da data conforme necessário
+        }
+    };
 
-    // Adiciona condições utilizando a função auxiliar
+    // Adiciona condições de filtros adicionais
     addCondition('nome', nome);
     addCondition('lugar', lugar);
     addCondition('tipo_manuntencao', tipo_manuntencao);
     addCondition('modelo_marca', modelo_marca);
+
+    // Adiciona filtro de data relativa
+    if (periodo) {
+        addRelativeDateCondition('data_manuntencao', periodo);
+    }
 
     // Executa a consulta com os valores dinamicamente gerados
     connection.query(sql, values, (err, rows) => {
