@@ -21,6 +21,7 @@ console.log('Conexão bem-sucedida ao banco de dados');
 });
 // Middleware para permitir que o Express interprete JSON
 app.use(express.json());
+
 // Listar todos as manuntenções
 app.get('/manuntencao', (req, res) => {
     connection.query('SELECT * FROM manuntencao', (err, rows) => {

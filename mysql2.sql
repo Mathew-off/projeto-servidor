@@ -50,15 +50,15 @@ create table manuntencao (
 )DEFAULT CHARSET = utf8;
 -- Inserção de 13 manuntenções
 INSERT INTO manuntencao (nome,data_manuntencao,data_previsao,custo,detalhes,observacoes,lugar,tipo_manuntencao,modelo_marca,tipo_conserto) 
-VALUES ('matheus','2024-10-01',NULL,'200.50','Limpeza dos filtros de ar',NULL,'sala e','Corretiva','modelo 03 e marca 03', 'Substituição dos filtros'),
+VALUES ('matheus','2024-09-01',NULL,'200.50','Limpeza dos filtros de ar',NULL,'sala e','Corretiva','modelo 03 e marca 03', 'Substituição dos filtros'),
 ('joao','2024-07-12',NULL,'150.75','troca de óleo',NULL,'sala b','Preventiva','modelo 02 e marca 02', 'Limpeza dos filtros de ar'),
 ('gabriel','2024-05-23',NULL,'320.00','troca de correia',NULL,'sala c','Corretiva','modelo 03 e marca 03', 'Limpeza de dreno'),
-('carlos','2024-11-02',NULL,'100.25','troca de filtro de ar',NULL,'sala d','Corretiva','modelo 04 e marca 04', 'Medição de tensão elétrica'),
+('carlos','2024-02-02',NULL,'100.25','troca de filtro de ar',NULL,'sala d','Corretiva','modelo 04 e marca 04', 'Medição de tensão elétrica'),
 ('mariana','2024-03-15',NULL,'450.90','troca de pastilha de freio',NULL,'sala e','Preventiva','modelo 05 e marca 05', 'Medição de temperatura do ar'),
-('rafael','2024-08-30',NULL,'220.30','troca de vela',NULL,'sala a','Corretiva','modelo 01 e marca 01', 'Verificação do estado dos filtros'),
-('juliana','2024-12-25',NULL,'310.60','troca de amortecedor',NULL,'sala b','Preventiva','modelo 02 e marca 02', 'Substituição dos filtros'),
+('rafael','2024-08-05',NULL,'220.30','troca de vela',NULL,'sala a','Corretiva','modelo 01 e marca 01', 'Verificação do estado dos filtros'),
+('juliana','2024-01-25',NULL,'310.60','troca de amortecedor',NULL,'sala b','Preventiva','modelo 02 e marca 02', 'Substituição dos filtros'),
 ('fernando','2024-04-18',NULL,'180.45','troca de pneu',NULL,'sala c','Corretiva','modelo 03 e marca 03', 'Limpeza dos filtros de ar'),
 ('beatriz','2024-01-07',NULL,'270.20','troca de bateria',NULL,'sala d','Preventiva','modelo 04 e marca 04', 'Limpeza de dreno'),
-('lucas','2024-09-14',NULL,'195.75','troca de cabo',NULL,'sala e','Corretiva','modelo 05 e marca 05', 'Medição de tensão elétrica');
+('lucas','2024-07-14',NULL,'195.75','troca de cabo',NULL,'sala e','Corretiva','modelo 05 e marca 05', 'Medição de tensão elétrica');
 use controladores_de_temperatura;
 SELECT * FROM manuntencao;
