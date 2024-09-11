@@ -46,7 +46,7 @@ create table manuntencao (
     lugar ENUM ('sala a', 'sala b', 'sala c', 'sala d', 'sala e') NOT NULL,
     tipo_manuntencao ENUM ('Corretiva','Preventiva') NOT NULL,
     modelo_marca ENUM ('modelo 01 e marca 01', 'modelo 02 e marca 02', 'modelo 03 e marca 03', 'modelo 04 e marca 04', 'modelo 05 e marca 05') NOT NULL,
-    tipo_conserto ENUM ('Limpeza dos filtros de ar', 'Substituição dos filtros', 'Limpeza de dreno','Medição de tensão elétrica', 'Medição de temperatura do ar', 'Verificação do estado dos filtros') 
+    tipo_conserto ENUM ('Limpeza dos filtros de ar', 'Substituição dos filtros', 'Limpeza de dreno','Medição de tensão elétrica', 'Medição de temperatura do ar', 'Verificação do estado dos filtros') NOT NULL
 )DEFAULT CHARSET = utf8;
 -- Inserção de 13 manuntenções
 INSERT INTO manuntencao (nome,data_manuntencao,data_previsao,custo,detalhes,observacoes,lugar,tipo_manuntencao,modelo_marca,tipo_conserto) 

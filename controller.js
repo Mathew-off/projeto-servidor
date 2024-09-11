@@ -1,27 +1,6 @@
-const express = require('express');
-const mysql = require('mysql');
-const app = express();
-const port = 3000;
 const { format, subDays, subMonths } = require('date-fns');
-// Configuração do banco de dados
-const connection = mysql.createConnection({
-host: 'localhost',
-port: 3306, // Porta padrão do MySQL
-user: 'root',
-password: '', // Substitua 'sua_senha' pela senha do seu banco de dados
-database: 'controladores_de_temperatura'
-});
-// Conexão com o banco de dados
-connection.connect((err) => {
-if (err) {
-console.error('Erro ao conectar ao banco de dados:', err);
-throw err;
-}
-console.log('Conexão bem-sucedida ao banco de dados');
-});
-// Middleware para permitir que o Express interprete JSON
-app.use(express.json());
-
+const{connection} = require ('./configBD')
+const {app} = require ('./app')
 // Listar todos as manuntenções
 app.get('/manuntencao', (req, res) => {
     connection.query('SELECT * FROM manuntencao', (err, rows) => {
@@ -50,18 +29,6 @@ app.get('/manuntencao/:id', (req, res) => {
     res.json(rows[0]);
     });
     });
-// Deletar uma manuntenção
-app.delete('/manuntencao/:id', (req, res) => {
-    const manunId = req.params.id;
-    connection.query('DELETE FROM manuntencao WHERE id = ?', [manunId], (err, result) => {
-    if (err) {
-    console.error('Erro ao deletar manuntenção:', err);
-    res.status(500).send('Erro interno do sistema');
-    return;
-    }
-    res.send('Manuntenção deletada com sucesso');
-    });
-    });
 // Cadastrar nova manutenção
 app.post('/manuntencao', (req, res) => {
     const { nome, data_manuntencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manuntencao,modelo_marca,tipo_conserto } = req.body;
@@ -73,6 +40,19 @@ app.post('/manuntencao', (req, res) => {
     return;
     }
     res.status(201).send('Manuntenção salva com sucesso');
+    });
+    });
+// Atualizar informações de uma manutençao
+app.put('/manuntencao/:id', (req, res) => {
+    const manunID = req.params.id;
+    const {nome, data_manuntencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manuntencao,modelo_marca,tipo_conserto} = req.body;
+    connection.query('UPDATE manuntencao SET nome = ?, data_manuntencao = ?, data_previsao = ?, custo = ?, detalhes = ?, observacoes = ?, lugar = ?, tipo_manuntencao = ?, modelo_marca = ?, tipo_conserto = ? WHERE id = ?', [nome, data_manuntencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manuntencao,modelo_marca,tipo_conserto, manunID], (err, result) => {
+        if (err) {
+            console.error('Erro ao atualizar Manuntenção:', err);
+            res.status(500).send('Erro interno do servidor');
+    return;
+    }
+    res.send('Manuntenção atualizado com sucesso');
     });
     });
 // Filtrar manutenções
@@ -145,25 +125,19 @@ app.post('/filtro', (req, res) => {
         res.json(rows); // Retorna todas as linhas encontradas
     });
 });
-
-// Atualizar informações de uma manutençao
-app.put('/manuntencao/:id', (req, res) => {
-    const manunID = req.params.id;
-    const {nome, data_manuntencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manuntencao,modelo_marca,tipo_conserto} = req.body;
-    connection.query('UPDATE manuntencao SET nome = ?, data_manuntencao = ?, data_previsao = ?, custo = ?, detalhes = ?, observacoes = ?, lugar = ?, tipo_manuntencao = ?, modelo_marca = ?, tipo_conserto = ? WHERE id = ?', [nome, data_manuntencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manuntencao,modelo_marca,tipo_conserto, manunID], (err, result) => {
-        if (err) {
-            console.error('Erro ao atualizar Manuntenção:', err);
-            res.status(500).send('Erro interno do servidor');
+// Deletar uma manuntenção
+app.delete('/manuntencao/:id', (req, res) => {
+    const manunId = req.params.id;
+    connection.query('DELETE FROM manuntencao WHERE id = ?', [manunId], (err, result) => {
+    if (err) {
+    console.error('Erro ao deletar manuntenção:', err);
+    res.status(500).send('Erro interno do sistema');
     return;
     }
-    res.send('Manuntenção atualizado com sucesso');
+    res.send('Manuntenção deletada com sucesso');
     });
     });
 //Pagina não encontrada
 app.get('*',(req,res) => {
         res.send(`Pagina não encontrada `);
-    });
-// Iniciar o servidor
-app.listen(port, () => {
-    console.log(`Servidor rodando em http://localhost:${port}`);
     });
