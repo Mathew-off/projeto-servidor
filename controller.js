@@ -82,34 +82,34 @@ addCondition('tipo_manutencao', tipo_manutencao);
 addCondition('modelo_marca', modelo_marca);
 // Função auxiliar para adicionar condições de data relativa
 const addRelativeDateCondition = (field, period) => {
-let startDate;
-const today = new Date();
-switch (period) {
-    case 'ultimos_7_dias':
-        startDate = subDays(today, 7);
-        break;
-    case 'ultimos_15_dias':
-        startDate = subDays(today, 15);
-        break;
-    case 'ultimos_30_dias':
-        startDate = subDays(today, 30);
-        break;
-    case 'ultimos_3_meses':
-        startDate = subMonths(today, 3);
-        break;
-    case 'ultimos_6_meses':
-        startDate = subMonths(today, 6);
-        break;
-    case 'ultimos_12_meses':
-        startDate = subMonths(today, 12);
-        break;
-    default:
-        startDate = null;
-    }
-    if (startDate) {
-        sql += ` AND ${field} >= ?`;
-        values.push(format(startDate, 'yyyy-MM-dd')); // Ajuste o formato da data conforme necessário
-    }
+    let startDate;
+    const today = new Date();
+    switch (period) {
+        case 'ultimos_7_dias':
+            startDate = subDays(today, 7);
+            break;
+        case 'ultimos_15_dias':
+            startDate = subDays(today, 15);
+            break;
+        case 'ultimos_30_dias':
+            startDate = subDays(today, 30);
+            break;
+        case 'ultimos_3_meses':
+            startDate = subMonths(today, 3);
+            break;
+        case 'ultimos_6_meses':
+            startDate = subMonths(today, 6);
+            break;
+        case 'ultimos_12_meses':
+            startDate = subMonths(today, 12);
+            break;
+        default:
+            startDate = null;
+        }
+        if (startDate) {
+            sql += ` AND ${field} >= ?`;
+            values.push(format(startDate, 'yyyy-MM-dd')); // Ajuste o formato da data conforme necessário
+        }
 };
 
 // Adiciona filtro de data relativa
@@ -136,13 +136,13 @@ connection.query(sql, values, (err, rows) => {
 app.delete('/manutencao/:id', (req, res) => {
     const manunId = req.params.id;
     connection.query('DELETE FROM manutencao WHERE id = ?', [manunId], (err, result) => {
-    if (err) {
-    console.error('Erro ao deletar manutenção:', err);
-    res.status(500).send('Erro interno do sistema');
-    return;
-    }
-    res.send('Manutenção deletada com sucesso');
-    });
+        if (err) {
+            console.error('Erro ao deletar manutenção:', err);
+            res.status(500).send('Erro interno do sistema');
+            return;
+        }
+        res.send('Manutenção deletada com sucesso');
+        });
     });
     
 //Pagina não encontrada
