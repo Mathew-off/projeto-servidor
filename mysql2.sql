@@ -35,21 +35,21 @@ CREATE TABLE tipo_conserto (
 -- Inserção das manuntenções corretivas
 INSERT INTO tipo_conserto (servico) VALUES ('Limpeza dos filtros de ar'), ('Substituição dos filtros'), ('Limpeza de dreno'),('Medição de tensão elétrica'), ('Medição de temperatura do ar'), ('Verificação do estado dos filtros');
 -- Criação da tabela manuntenção
-create table manuntencao (
+create table manutencao (
 	id INT  PRIMARY KEY AUTO_INCREMENT UNIQUE,
 	nome varchar(255) NOT NULL,
-    data_manuntencao DATE NOT NULL,
+    data_manutencao DATE NOT NULL,
     data_previsao DATE,
     custo decimal (6,2) ,
     detalhes varchar (255) NOT NULL,
     observacoes varchar(300),
     lugar ENUM ('sala a', 'sala b', 'sala c', 'sala d', 'sala e') NOT NULL,
-    tipo_manuntencao ENUM ('Corretiva','Preventiva') NOT NULL,
+    tipo_manutencao ENUM ('Corretiva','Preventiva') NOT NULL,
     modelo_marca ENUM ('modelo 01 e marca 01', 'modelo 02 e marca 02', 'modelo 03 e marca 03', 'modelo 04 e marca 04', 'modelo 05 e marca 05') NOT NULL,
-    tipo_conserto ENUM ('Limpeza dos filtros de ar', 'Substituição dos filtros', 'Limpeza de dreno','Medição de tensão elétrica', 'Medição de temperatura do ar', 'Verificação do estado dos filtros') 
+    tipo_conserto ENUM ('Limpeza dos filtros de ar', 'Substituição dos filtros', 'Limpeza de dreno','Medição de tensão elétrica', 'Medição de temperatura do ar', 'Verificação do estado dos filtros') NOT NULL
 )DEFAULT CHARSET = utf8;
 -- Inserção de 13 manuntenções
-INSERT INTO manuntencao (nome,data_manuntencao,data_previsao,custo,detalhes,observacoes,lugar,tipo_manuntencao,modelo_marca,tipo_conserto) 
+INSERT INTO manutencao (nome,data_manutencao,data_previsao,custo,detalhes,observacoes,lugar,tipo_manutencao,modelo_marca,tipo_conserto) 
 VALUES ('matheus','2024-09-01',NULL,'200.50','Limpeza dos filtros de ar',NULL,'sala e','Corretiva','modelo 03 e marca 03', 'Substituição dos filtros'),
 ('joao','2024-07-12',NULL,'150.75','troca de óleo',NULL,'sala b','Preventiva','modelo 02 e marca 02', 'Limpeza dos filtros de ar'),
 ('gabriel','2024-05-23',NULL,'320.00','troca de correia',NULL,'sala c','Corretiva','modelo 03 e marca 03', 'Limpeza de dreno'),
@@ -61,4 +61,4 @@ VALUES ('matheus','2024-09-01',NULL,'200.50','Limpeza dos filtros de ar',NULL,'s
 ('beatriz','2024-01-07',NULL,'270.20','troca de bateria',NULL,'sala d','Preventiva','modelo 04 e marca 04', 'Limpeza de dreno'),
 ('lucas','2024-07-14',NULL,'195.75','troca de cabo',NULL,'sala e','Corretiva','modelo 05 e marca 05', 'Medição de tensão elétrica');
 use controladores_de_temperatura;
-SELECT * FROM manuntencao;
+SELECT * FROM manutencao;
