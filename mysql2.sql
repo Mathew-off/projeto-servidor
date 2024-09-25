@@ -41,7 +41,7 @@ create table manutencao (
     data_manutencao DATE NOT NULL,
     data_previsao DATE,
     custo decimal (6,2) ,
-    detalhes varchar (255) NOT NULL,
+    detalhes varchar (255) ,
     observacoes varchar(300),
     lugar ENUM ('sala a', 'sala b', 'sala c', 'sala d', 'sala e') NOT NULL,
     tipo_manutencao ENUM ('Corretiva','Preventiva') NOT NULL,
