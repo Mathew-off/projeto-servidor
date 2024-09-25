@@ -33,9 +33,9 @@ app.get('/manutencao/:id', (req, res) => {
 
 // Cadastrar nova manutenção
 app.post('/manutencao', (req, res) => {
-    const { nome, data_manutencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manutencao,modelo_marca,tipo_conserto } = req.body;
-    connection.query('INSERT INTO manutencao (nome, data_manutencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manutencao,modelo_marca,tipo_conserto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [nome, data_manutencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manutencao,modelo_marca,tipo_conserto], (err, result) => {
+    const { nome, data_manutencao, data_previsao, custo, detalhes, observacoes, lugar, tipo_manutencao, modelo_marca, tipo_conserto } = req.body;
+    connection.query('INSERT INTO manutencao (nome, data_manutencao, data_previsao, custo, detalhes, observacoes, lugar, tipo_manutencao, modelo_marca, tipo_conserto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [nome, data_manutencao, data_previsao, custo, detalhes, observacoes, lugar, tipo_manutencao, modelo_marca, tipo_conserto], (err, result) => {
         if (err) {
             console.error('Erro ao inserir a Manutenção:', err);
             res.status(500).send('Erro interno do sistema!');
