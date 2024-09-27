@@ -78,6 +78,9 @@ app.post('/filtro', (req, res) => {
         ({ sql, values } = addRelativeDateCondition(sql, values, 'data_manutencao', periodo));
     }
 
+    // Ordena os resultados por data em ordem decrescente
+    sql += ' ORDER BY data_manutencao DESC';
+
     // Executa a consulta com os valores dinamicamente gerados
     connection.query(sql, values, (err, rows) => {
         if (err) {
