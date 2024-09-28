@@ -14,6 +14,18 @@ app.get('/manutencao', (req, res) => {
     });
 });
 
+// Listar todos os profissionais
+app.get('/profissional', (req, res) => {
+    connection.query('SELECT DISTINCT nome FROM manutencao', (err, rows) => {
+        if (err) {
+            console.error('Erro ao executar a consulta:', err);
+            res.status(500).send('Erro interno do servidor');
+            return;
+        }
+        res.json(rows);
+    });
+});
+
 // Buscar uma manutenção pelo ID
 app.get('/manutencao/:id', (req, res) => {
     const manunId = req.params.id;
