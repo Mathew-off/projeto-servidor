@@ -14,6 +14,18 @@ app.get('/manutencao', (req, res) => {
     });
 });
 
+// Listar todos os profissionais
+app.get('/profissional', (req, res) => {
+    connection.query('SELECT DISTINCT nome FROM manutencao', (err, rows) => {
+        if (err) {
+            console.error('Erro ao executar a consulta:', err);
+            res.status(500).send('Erro interno do servidor');
+            return;
+        }
+        res.json(rows);
+    });
+});
+
 // Buscar uma manutenção pelo ID
 app.get('/manutencao/:id', (req, res) => {
     const manunId = req.params.id;
@@ -33,9 +45,9 @@ app.get('/manutencao/:id', (req, res) => {
 
 // Cadastrar nova manutenção
 app.post('/manutencao', (req, res) => {
-    const { nome, data_manutencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manutencao,modelo_marca,tipo_conserto } = req.body;
-    connection.query('INSERT INTO manutencao (nome, data_manutencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manutencao,modelo_marca,tipo_conserto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [nome, data_manutencao, data_previsao, custo,detalhes,observacoes,lugar,tipo_manutencao,modelo_marca,tipo_conserto], (err, result) => {
+    const { nome, data_manutencao, data_previsao, custo, detalhes, observacoes, lugar, tipo_manutencao, modelo_marca, tipo_conserto } = req.body;
+    connection.query('INSERT INTO manutencao (nome, data_manutencao, data_previsao, custo, detalhes, observacoes, lugar, tipo_manutencao, modelo_marca, tipo_conserto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [nome, data_manutencao, data_previsao, custo, detalhes, observacoes, lugar, tipo_manutencao, modelo_marca, tipo_conserto], (err, result) => {
         if (err) {
             console.error('Erro ao inserir a Manutenção:', err);
             res.status(500).send('Erro interno do sistema!');
@@ -77,6 +89,9 @@ app.post('/filtro', (req, res) => {
     if (periodo) {
         ({ sql, values } = addRelativeDateCondition(sql, values, 'data_manutencao', periodo));
     }
+
+    // Ordena os resultados por data em ordem decrescente
+    sql += ' ORDER BY data_manutencao DESC';
 
     // Executa a consulta com os valores dinamicamente gerados
     connection.query(sql, values, (err, rows) => {

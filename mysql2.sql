@@ -19,7 +19,7 @@ create table modelo (
 )DEFAULT CHARSET = utf8;
 -- Inserção dos modelos e marcas
 INSERT INTO modelo (modelo_marca) VALUES 
-('modelo 01 e marca 01'), ('modelo 02 e marca 02'), ('modelo 03 e marca 03'), ('modelo 04 e marca 04'), ('modelo 05 e marca 05');
+('modelo 01 e marca 01'), ('modelo 02 e marca 02'), ('modelo 03 e marca 03'), ('modelo 04 e marca 04'), ('modelo 05 e marca 05'), ('Outros');
 -- Criação da tabela manuntenções corretivas
 create table tipo_manuntencao (
 	idLocal INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
@@ -33,7 +33,7 @@ CREATE TABLE tipo_conserto (
     servico VARCHAR(255)
 )  DEFAULT CHARSET=UTF8;
 -- Inserção das manuntenções corretivas
-INSERT INTO tipo_conserto (servico) VALUES ('Limpeza dos filtros de ar'), ('Substituição dos filtros'), ('Limpeza de dreno'),('Medição de tensão elétrica'), ('Medição de temperatura do ar'), ('Verificação do estado dos filtros');
+INSERT INTO tipo_conserto (servico) VALUES ('Limpeza dos filtros de ar'), ('Substituição dos filtros'), ('Limpeza de dreno'),('Medição de tensão elétrica'), ('Medição de temperatura do ar'), ('Verificação do estado dos filtros'), ('Outros');
 -- Criação da tabela manuntenção
 create table manutencao (
 	id INT  PRIMARY KEY AUTO_INCREMENT UNIQUE,
@@ -41,13 +41,36 @@ create table manutencao (
     data_manutencao DATE NOT NULL,
     data_previsao DATE,
     custo decimal (6,2) ,
-    detalhes varchar (255) NOT NULL,
+    detalhes varchar (255) ,
     observacoes varchar(300),
     lugar ENUM ('sala a', 'sala b', 'sala c', 'sala d', 'sala e') NOT NULL,
     tipo_manutencao ENUM ('Corretiva','Preventiva') NOT NULL,
-    modelo_marca ENUM ('modelo 01 e marca 01', 'modelo 02 e marca 02', 'modelo 03 e marca 03', 'modelo 04 e marca 04', 'modelo 05 e marca 05') NOT NULL,
-    tipo_conserto ENUM ('Limpeza dos filtros de ar', 'Substituição dos filtros', 'Limpeza de dreno','Medição de tensão elétrica', 'Medição de temperatura do ar', 'Verificação do estado dos filtros') NOT NULL
+    modelo_marca ENUM ('modelo 01 e marca 01', 'modelo 02 e marca 02', 'modelo 03 e marca 03', 'modelo 04 e marca 04', 'modelo 05 e marca 05', 'Outros') NOT NULL,
+    tipo_conserto ENUM ('Limpeza dos filtros de ar', 'Substituição dos filtros', 'Limpeza de dreno','Medição de tensão elétrica', 'Medição de temperatura do ar', 'Verificação do estado dos filtros','Outros') NOT NULL
 )DEFAULT CHARSET = utf8;
+
+DELIMITER $$
+
+CREATE TRIGGER formatar_nome_antes_inserir
+BEFORE INSERT ON manutencao
+FOR EACH ROW
+BEGIN
+    SET NEW.nome = CONCAT(UPPER(LEFT(NEW.nome, 1)), LOWER(SUBSTRING(NEW.nome, 2)));
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER formatar_nome_antes_atualizar
+BEFORE UPDATE ON manutencao
+FOR EACH ROW
+BEGIN
+    SET NEW.nome = CONCAT(UPPER(LEFT(NEW.nome, 1)), LOWER(SUBSTRING(NEW.nome, 2)));
+END $$
+
+DELIMITER ;
+
 -- Inserção de 13 manuntenções
 INSERT INTO manutencao (nome,data_manutencao,data_previsao,custo,detalhes,observacoes,lugar,tipo_manutencao,modelo_marca,tipo_conserto) 
 VALUES ('matheus','2024-09-01',NULL,'200.50','Limpeza dos filtros de ar',NULL,'sala e','Corretiva','modelo 03 e marca 03', 'Substituição dos filtros'),
