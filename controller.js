@@ -26,6 +26,18 @@ app.get('/profissional', (req, res) => {
     });
 });
 
+// Listar todos os lugares
+app.get('/lugar', (req, res) => {
+    connection.query('SELECT lugar nome FROM manutencao', (err, rows) => {
+        if (err) {
+            console.error('Erro ao executar a consulta:', err);
+            res.status(500).send('Erro interno do servidor');
+            return;
+        }
+        res.json(rows);
+    });
+});
+
 // Buscar uma manutenção pelo ID
 app.get('/manutencao/:id', (req, res) => {
     const manunId = req.params.id;
