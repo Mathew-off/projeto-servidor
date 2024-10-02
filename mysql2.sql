@@ -11,7 +11,7 @@ create table lugar (
 	nome varchar(255)
 )DEFAULT CHARSET = utf8;
 -- Inserção de locais
-INSERT INTO lugar (nome) VALUES ('sala a'), ('sala b'), ('sala c'), ('sala d'), ('sala e');
+INSERT INTO lugar (nome) VALUES ('1° A'), ('1° B'), ('1° C'), ('2° A'), ('2° B'), ('2° C'),('3° A'), ('3° B'), ('3° C'),('Laboratorio de informática'),('Sala de estudos');
 -- Criação da tabela modelo e marcas das maquinas
 create table modelo (
 	idModelo INT  PRIMARY KEY AUTO_INCREMENT UNIQUE,
@@ -19,7 +19,7 @@ create table modelo (
 )DEFAULT CHARSET = utf8;
 -- Inserção dos modelos e marcas
 INSERT INTO modelo (modelo_marca) VALUES 
-('modelo 01 e marca 01'), ('modelo 02 e marca 02'), ('modelo 03 e marca 03'), ('modelo 04 e marca 04'), ('modelo 05 e marca 05'), ('Outros');
+('Carrier Eco Saver Puron'), ('Daikin FTXS25J'), ('LG-Dual Inverter'), ('Inversor Fujitsu'), ('Midea Liva Wi-Fi') , ('Gree Eco Garden'),('Outros');
 -- Criação da tabela manuntenções corretivas
 create table tipo_manuntencao (
 	idLocal INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
@@ -35,19 +35,19 @@ CREATE TABLE tipo_conserto (
 -- Inserção das manuntenções corretivas
 INSERT INTO tipo_conserto (servico) VALUES ('Limpeza dos filtros de ar'), ('Substituição dos filtros'), ('Limpeza de dreno'),('Medição de tensão elétrica'), ('Medição de temperatura do ar'), ('Verificação do estado dos filtros'), ('Outros');
 -- Criação da tabela manuntenção
-create table manutencao (
-	id INT  PRIMARY KEY AUTO_INCREMENT UNIQUE,
-	nome varchar(255) NOT NULL,
+CREATE TABLE manutencao (
+    id INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
+    nome VARCHAR(255) NOT NULL,
     data_manutencao DATE NOT NULL,
     data_previsao DATE,
-    custo decimal (6,2) ,
-    detalhes varchar (255) ,
-    observacoes varchar(300),
-    lugar ENUM ('sala a', 'sala b', 'sala c', 'sala d', 'sala e') NOT NULL,
-    tipo_manutencao ENUM ('Corretiva','Preventiva') NOT NULL,
-    modelo_marca ENUM ('modelo 01 e marca 01', 'modelo 02 e marca 02', 'modelo 03 e marca 03', 'modelo 04 e marca 04', 'modelo 05 e marca 05', 'Outros') NOT NULL,
-    tipo_conserto ENUM ('Limpeza dos filtros de ar', 'Substituição dos filtros', 'Limpeza de dreno','Medição de tensão elétrica', 'Medição de temperatura do ar', 'Verificação do estado dos filtros','Outros') NOT NULL
-)DEFAULT CHARSET = utf8;
+    custo DECIMAL(6,2),
+    detalhes VARCHAR(255),
+    observacoes VARCHAR(300),
+    lugar ENUM('1° A', '1° B', '1° C', '2° A', '2° B', '2° C', '3° A', '3° B', '3° C', 'Laboratorio de informática', 'Sala de estudos') NOT NULL,
+    tipo_manutencao ENUM('Corretiva', 'Preventiva') NOT NULL,
+    modelo_marca ENUM('Carrier Eco Saver Puron', 'Daikin FTXS25J', 'LG-Dual Inverter', 'Inversor Fujitsu', 'Midea Liva Wi-Fi', 'Gree Eco Garden', 'Outros') NOT NULL,
+    tipo_conserto ENUM('Limpeza dos filtros de ar', 'Substituição dos filtros', 'Limpeza de dreno', 'Medição de tensão elétrica', 'Medição de temperatura do ar', 'Verificação do estado dos filtros', 'Outros') NOT NULL
+) DEFAULT CHARSET = utf8;
 
 DELIMITER $$
 
@@ -70,18 +70,18 @@ BEGIN
 END $$
 
 DELIMITER ;
-
 -- Inserção de 13 manuntenções
-INSERT INTO manutencao (nome,data_manutencao,data_previsao,custo,detalhes,observacoes,lugar,tipo_manutencao,modelo_marca,tipo_conserto) 
-VALUES ('matheus','2024-09-01',NULL,'200.50','Limpeza dos filtros de ar',NULL,'sala e','Corretiva','modelo 03 e marca 03', 'Substituição dos filtros'),
-('joao','2024-07-12',NULL,'150.75','troca de óleo',NULL,'sala b','Preventiva','modelo 02 e marca 02', 'Limpeza dos filtros de ar'),
-('gabriel','2024-05-23',NULL,'320.00','troca de correia',NULL,'sala c','Corretiva','modelo 03 e marca 03', 'Limpeza de dreno'),
-('carlos','2024-02-02',NULL,'100.25','troca de filtro de ar',NULL,'sala d','Corretiva','modelo 04 e marca 04', 'Medição de tensão elétrica'),
-('mariana','2024-03-15',NULL,'450.90','troca de pastilha de freio',NULL,'sala e','Preventiva','modelo 05 e marca 05', 'Medição de temperatura do ar'),
-('rafael','2024-08-05',NULL,'220.30','troca de vela',NULL,'sala a','Corretiva','modelo 01 e marca 01', 'Verificação do estado dos filtros'),
-('juliana','2024-01-25',NULL,'310.60','troca de amortecedor',NULL,'sala b','Preventiva','modelo 02 e marca 02', 'Substituição dos filtros'),
-('fernando','2024-04-18',NULL,'180.45','troca de pneu',NULL,'sala c','Corretiva','modelo 03 e marca 03', 'Limpeza dos filtros de ar'),
-('beatriz','2024-01-07',NULL,'270.20','troca de bateria',NULL,'sala d','Preventiva','modelo 04 e marca 04', 'Limpeza de dreno'),
-('lucas','2024-07-14',NULL,'195.75','troca de cabo',NULL,'sala e','Corretiva','modelo 05 e marca 05', 'Medição de tensão elétrica');
+INSERT INTO manutencao (nome, data_manutencao, data_previsao, custo, detalhes, observacoes, lugar, tipo_manutencao, modelo_marca, tipo_conserto) 
+VALUES 
+    ('Matheus', '2024-09-01', NULL, '200.50', 'Limpeza dos filtros de ar', NULL, 'Sala de estudos', 'Corretiva', 'LG-Dual Inverter', 'Substituição dos filtros'),
+    ('João', '2024-07-12', NULL, '150.75', 'Troca de óleo', NULL, '1° A', 'Preventiva', 'Daikin FTXS25J', 'Limpeza dos filtros de ar'),
+    ('Gabriel', '2024-05-23', NULL, '320.00', 'Troca de correia', NULL, '1° B', 'Corretiva', 'LG-Dual Inverter', 'Limpeza de dreno'),
+    ('Carlos', '2024-02-02', NULL, '100.25', 'Troca de filtro de ar', NULL, '2° C', 'Corretiva', 'Inversor Fujitsu', 'Medição de tensão elétrica'),
+    ('Mariana', '2024-03-15', NULL, '450.90', 'Troca de pastilha de freio', NULL, '3° A', 'Preventiva', 'Midea Liva Wi-Fi', 'Medição de temperatura do ar'),
+    ('Rafael', '2024-08-05', NULL, '220.30', 'Troca de vela', NULL, 'Laboratorio de informática', 'Corretiva', 'Carrier Eco Saver Puron', 'Verificação do estado dos filtros'),
+    ('Juliana', '2024-01-25', NULL, '310.60', 'Troca de amortecedor', NULL, '2° A', 'Preventiva', 'Daikin FTXS25J', 'Substituição dos filtros'),
+    ('Fernando', '2024-04-18', NULL, '180.45', 'Troca de pneu', NULL, '1° C', 'Corretiva', 'LG-Dual Inverter', 'Limpeza dos filtros de ar'),
+    ('Beatriz', '2024-01-07', NULL, '270.20', 'Troca de bateria', NULL, '3° B', 'Preventiva', 'Inversor Fujitsu', 'Limpeza de dreno'),
+    ('Lucas', '2024-07-14', NULL, '195.75', 'Troca de cabo', NULL, 'Sala de estudos', 'Corretiva', 'Midea Liva Wi-Fi', 'Medição de tensão elétrica');
 use controladores_de_temperatura;
 SELECT * FROM manutencao;
