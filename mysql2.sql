@@ -34,6 +34,14 @@ CREATE TABLE tipo_conserto (
 )  DEFAULT CHARSET=UTF8;
 -- Inserção das manuntenções corretivas
 INSERT INTO tipo_conserto (servico) VALUES ('Limpeza dos filtros de ar'), ('Substituição dos filtros'), ('Limpeza de dreno'),('Medição de tensão elétrica'), ('Medição de temperatura do ar'), ('Verificação do estado dos filtros'), ('Outros');
+
+CREATE TABLE cadastro (
+	id INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
+	nomeUser VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL 
+) DEFAULT CHARSET=UTF8;
+
 -- Criação da tabela manuntenção
 CREATE TABLE manutencao (
     id INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
