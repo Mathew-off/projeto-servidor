@@ -59,6 +59,18 @@ CREATE TABLE manutencao (
 
 DELIMITER $$
 
+CREATE TRIGGER formatar_user_antes_inserir
+BEFORE INSERT ON cadastro
+FOR EACH ROW
+BEGIN
+    SET NEW.nomeUser = CONCAT(UPPER(LEFT(NEW.nomeUser, 1)), LOWER(SUBSTRING(NEW.nomeUser, 2)));
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
 CREATE TRIGGER formatar_nome_antes_inserir
 BEFORE INSERT ON manutencao
 FOR EACH ROW
@@ -78,6 +90,8 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+
 -- Inserção de 13 manuntenções
 INSERT INTO manutencao (nome, data_manutencao, data_previsao, custo, detalhes, observacoes, lugar, tipo_manutencao, modelo_marca, tipo_conserto) 
 VALUES 
