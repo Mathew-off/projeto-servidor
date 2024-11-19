@@ -118,9 +118,28 @@ app.post('/manutencao', verifyToken, (req, res) => {
     });
 });
 
+// Rota para obter detalhes de uma manutenção com base no ID
+app.get('/manutencao/:id', verifyToken, (req, res) => {
+    const manunID = req.params.id;
+    connection.query('SELECT * FROM manutencao WHERE id = ?', [manunID], (err, result) => {
+        if (err) {
+            console.error('Erro ao buscar manutenção:', err);
+            res.status(500).send('Erro ao buscar manutenção');
+            return;
+        }
+        if (result.length > 0) {
+            res.json(result[0]); // Envia os detalhes da manutenção encontrada
+        } else {
+            res.status(404).send('Manutenção não encontrada');
+        }
+    });
+});
+
+// Rota para atualizar uma manutenção
 app.put('/manutencao/:id', verifyToken, (req, res) => {
     const manunID = req.params.id;
     const { nome, data_manutencao, data_previsao, custo, detalhes, observacoes, lugar, tipo_manutencao, modelo_marca, tipo_conserto } = req.body;
+    
     connection.query('UPDATE manutencao SET nome = ?, data_manutencao = ?, data_previsao = ?, custo = ?, detalhes = ?, observacoes = ?, lugar = ?, tipo_manutencao = ?, modelo_marca = ?, tipo_conserto = ? WHERE id = ?', 
         [nome, data_manutencao, data_previsao, custo, detalhes, observacoes, lugar, tipo_manutencao, modelo_marca, tipo_conserto, manunID], (err, result) => {
         if (err) {
@@ -128,7 +147,7 @@ app.put('/manutencao/:id', verifyToken, (req, res) => {
             res.status(500).send('Erro interno do servidor');
             return;
         }
-        res.send('Manutenção atualizado com sucesso');
+        res.send('Manutenção atualizada com sucesso');
     });
 });
 
