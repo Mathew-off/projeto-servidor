@@ -46,7 +46,7 @@ app.post('/login', (req, res) => {
             return res.status(500).json({ error: err.message });
         }
         if (results.length === 0) {
-            return res.status(404).json({ error: 'Usuário não encontrado' });
+            return res.status(404).json({ error: 'Email não encontrado' });
         }
 
         const user = results[0];
