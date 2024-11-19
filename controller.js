@@ -5,6 +5,38 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const verifyToken = require('./midlewares/verifyToken');
 
+// Endpoint de registro (cadastro de novo usuário)
+app.post('/cadastro', (req, res) => {
+    const { nomeUser, email, senha  } = req.body;
+  
+    // Verifica se o email já existe
+    const query = 'SELECT * FROM cadastro WHERE email = ?';
+    connection.query(query, [email], (err, results) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+  
+      if (results.length > 0) {
+        return res.status(400).json({ error: 'Email já cadastrado' });
+      }
+  
+      // Hash da senha antes de salvar no banco
+      bcrypt.hash(senha, 10, (err, hashedSenha) => {
+        if (err) return res.status(500).json({ error: err.message });
+  
+        // Criação do novo usuário no banco de dados
+        const insertQuery = 'INSERT INTO cadastro (nomeUser, email, senha) VALUES (?, ?, ?)';
+        connection.query(insertQuery, [nomeUser,email, hashedSenha], (err, results) => {
+          if (err) {
+            return res.status(500).json({ error: err.message });
+          }
+  
+          res.status(201).json({ message: 'Usuário criado com sucesso' });
+        });
+      });
+    });
+  });  
+
 app.post('/login', (req, res) => {
     const { email, senha } = req.body;
 
@@ -59,6 +91,19 @@ app.get('/profissional', verifyToken, (req, res) => {
         res.json(rows);
     });
 });
+
+// Listar todos os lugares
+app.get('/lugar', (req, res) => {
+    connection.query('SELECT lugar nome FROM manutencao', (err, rows) => {
+        if (err) {
+            console.error('Erro ao executar a consulta:', err);
+            res.status(500).send('Erro interno do servidor');
+            return;
+        }
+        res.json(rows);
+    });
+});
+
 
 app.post('/manutencao', verifyToken, (req, res) => {
     const { nome, data_manutencao, data_previsao, custo, detalhes, observacoes, lugar, tipo_manutencao, modelo_marca, tipo_conserto } = req.body;
