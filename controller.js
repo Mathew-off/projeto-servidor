@@ -19,13 +19,16 @@ app.post('/login', (req, res) => {
 
         const user = results[0];
 
+        // Verifica a senha usando bcrypt
         bcrypt.compare(senha, user.senha, (err, isMatch) => {
             if (err) return res.status(500).json({ error: err.message });
             if (!isMatch) return res.status(403).json({ error: 'Senha incorreta' });
 
+            // Gerar token JWT
             const secretKey = 'suaChaveSecreta';
             const token = jwt.sign({ id: user.id, email: user.email }, secretKey, { expiresIn: '1h' });
 
+            // Retorna o token para o cliente
             res.json({ token });
         });
     });
