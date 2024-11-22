@@ -34,6 +34,14 @@ CREATE TABLE tipo_conserto (
 )  DEFAULT CHARSET=UTF8;
 -- Inserção das manuntenções corretivas
 INSERT INTO tipo_conserto (servico) VALUES ('Limpeza dos filtros de ar'), ('Substituição dos filtros'), ('Limpeza de dreno'),('Medição de tensão elétrica'), ('Medição de temperatura do ar'), ('Verificação do estado dos filtros'), ('Outros');
+
+CREATE TABLE cadastro (
+	id INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
+	nomeUser VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL 
+) DEFAULT CHARSET=UTF8;
+
 -- Criação da tabela manuntenção
 CREATE TABLE manutencao (
     id INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
@@ -48,6 +56,18 @@ CREATE TABLE manutencao (
     modelo_marca ENUM('Carrier Eco Saver Puron', 'Daikin FTXS25J', 'LG-Dual Inverter', 'Inversor Fujitsu', 'Midea Liva Wi-Fi', 'Gree Eco Garden', 'Outros') NOT NULL,
     tipo_conserto ENUM('Limpeza dos filtros de ar', 'Substituição dos filtros', 'Limpeza de dreno', 'Medição de tensão elétrica', 'Medição de temperatura do ar', 'Verificação do estado dos filtros', 'Outros') NOT NULL
 ) DEFAULT CHARSET = utf8;
+
+DELIMITER $$
+
+CREATE TRIGGER formatar_user_antes_inserir
+BEFORE INSERT ON cadastro
+FOR EACH ROW
+BEGIN
+    SET NEW.nomeUser = CONCAT(UPPER(LEFT(NEW.nomeUser, 1)), LOWER(SUBSTRING(NEW.nomeUser, 2)));
+END $$
+
+DELIMITER ;
+
 
 DELIMITER $$
 
@@ -70,6 +90,8 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+
 -- Inserção de 13 manuntenções
 INSERT INTO manutencao (nome, data_manutencao, data_previsao, custo, detalhes, observacoes, lugar, tipo_manutencao, modelo_marca, tipo_conserto) 
 VALUES 
