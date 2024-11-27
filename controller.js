@@ -37,7 +37,7 @@ app.post('/cadastro', (req, res) => {
     });
   });  
 
-app.post('/login', (req, res) => {
+  app.post('/login', (req, res) => {
     const { email, senha } = req.body;
 
     const query = 'SELECT * FROM cadastro WHERE email = ?';
@@ -60,8 +60,8 @@ app.post('/login', (req, res) => {
             const secretKey = 'suaChaveSecreta';
             const token = jwt.sign({ id: user.id, email: user.email }, secretKey, { expiresIn: '1h' });
 
-            // Retorna o token para o cliente
-            res.json({ token });
+            // Retorna o token, nomeUser e email para o cliente
+            res.json({ token, nome: user.nomeUser, email: user.email });
         });
     });
 });
