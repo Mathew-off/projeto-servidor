@@ -4,7 +4,7 @@ const { addCondition, addRelativeDateCondition } = require('./utils');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const verifyToken = require('./midlewares/verifyToken');
-
+require('dotenv').config();
 // Endpoint de registro (cadastro de novo usuário)
 app.post('/cadastro', (req, res) => {
     const { nomeUser, email, senha  } = req.body;

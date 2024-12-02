@@ -1,5 +1,5 @@
 const { format, subDays, subMonths } = require('date-fns');
-
+require('dotenv').config();
 // Função auxiliar para adicionar condições dinamicamente
 const addCondition = (sql, values, field, value) => {
     if (value) {
