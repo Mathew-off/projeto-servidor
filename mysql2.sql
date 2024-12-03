@@ -68,7 +68,6 @@ END $$
 
 DELIMITER ;
 
-
 DELIMITER $$
 
 CREATE TRIGGER formatar_nome_antes_inserir
